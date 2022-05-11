@@ -8,6 +8,6 @@ import retrofit2.http.*;
 public interface APIServices {
 
     @FormUrlEncoded
-    @POST("api/auths/customers/register")
+    @POST("api/create-citizen.php")
     Call<Task> createCitizen(@Field("qrData") String qrData, @Field("email") String email);
 }
