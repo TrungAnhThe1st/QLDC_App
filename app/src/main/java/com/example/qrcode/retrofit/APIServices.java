@@ -7,6 +7,7 @@ import retrofit2.http.*;
 
 public interface APIServices {
 
+
     @FormUrlEncoded
     @POST("api/create-citizen.php")
     Call<Task> createCitizen(@Field("qrData") String qrData, @Field("email") String email);
