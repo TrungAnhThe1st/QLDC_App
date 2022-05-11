@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitInstance {
-    public static final String BASE_URL = "http://api.myservice.com/";
+    public static final String BASE_URL = "http://qldc.nsscdemo.xyz/";
 
     private static Retrofit ourInstance;
 
