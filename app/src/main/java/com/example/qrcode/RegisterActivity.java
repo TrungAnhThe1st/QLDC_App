@@ -3,6 +3,7 @@ package com.example.qrcode;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.qrcode.databinding.RegisterFormBinding;
 import com.example.qrcode.retrofit.APIServices;
 import com.example.qrcode.retrofit.RetrofitInstance;
+import com.google.gson.Gson;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -40,8 +45,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void viewEventInit() {
         btnFinalStep.setOnClickListener(view -> {
-            apiServices.createCitizen(qrData, eTxtEmail.getText().toString());
-            Toast.makeText(RegisterActivity.this, "Tạo tài khoản thành công", Toast.LENGTH_SHORT).show();
+            Call call = apiServices.createCitizen(qrData, eTxtEmail.getText().toString());
+
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    Log.e("TAG", "response 33: " + new Gson().toJson(response.body()) );
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Log.e("TAG", "onFailure: " + t.toString() );
+                    // Log error here since request failed
+                }
+            });
         });
     }
 
