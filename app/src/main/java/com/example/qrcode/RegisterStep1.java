@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -15,23 +14,17 @@ import com.budiyev.android.codescanner.AutoFocusMode;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import com.example.qrcode.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import com.example.qrcode.databinding.RegisterStep1Binding;
 import com.google.zxing.Result;
 
-public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
+public class RegisterStep1 extends AppCompatActivity {
+    private RegisterStep1Binding binding;
 
-    private String qrData;
+    private String qrCitizenData;
 
     private final int CAMERA_REQUEST_CODE = 101;
 
@@ -42,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = RegisterStep1Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         codeScanner = new CodeScanner(this, this.findViewById(R.id.scanner_view));
@@ -54,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void viewEventInit() {
         findViewById(R.id.btnNxtStep).setOnClickListener(view -> {
-            if(qrData != null && !qrData.isEmpty()) {
-                Intent i = new Intent(MainActivity.this, RegisterActivity.class);
-                i.putExtra("qrCode", qrData);
+            if(qrCitizenData != null && !qrCitizenData.isEmpty()) {
+                Intent i = new Intent(RegisterStep1.this, RegisterStep2.class);
+                i.putExtra("qrCitizenData", qrCitizenData);
                 startActivity(i);
             }
             else {
-                Toast.makeText(MainActivity.this, "Không có dữ liệu QR, mời quét lại", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterStep1.this, "Không có dữ liệu QR, mời quét lại", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -98,9 +91,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(() -> {
-                    qrData = result.getText();
-                    Toast.makeText(MainActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
-                    ((TextView) findViewById(R.id.txtData)).setText(result.getText());
+                    qrCitizenData = result.getText();
+                    ((TextView)findViewById(R.id.txtData)).setText("Thông tin của bạn: " + result.getText());
                 });
             }
         });

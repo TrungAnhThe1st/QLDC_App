@@ -2,42 +2,43 @@ package com.example.qrcode;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.qrcode.databinding.RegisterFormBinding;
+import com.example.qrcode.databinding.RegisterStep3Binding;
+import com.example.qrcode.databinding.RegisterStep3Binding;
 import com.example.qrcode.retrofit.APIServices;
 import com.example.qrcode.retrofit.RetrofitInstance;
 import com.google.gson.Gson;
 import retrofit2.Call;
+import com.example.qrcode.model.Response;
 import retrofit2.Callback;
-import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterStep3 extends AppCompatActivity {
 
-    private RegisterFormBinding binding;
+    private RegisterStep3Binding binding;
 
     private final APIServices apiServices = RetrofitInstance.getInstance().create(APIServices.class);
 
     private EditText eTxtEmail;
     private Button btnFinalStep;
 
-    private String qrData;
+    private String qrCitizenData;
+
+    private String qrUnitData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = RegisterFormBinding.inflate(getLayoutInflater());
+        binding = RegisterStep3Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         Intent i = getIntent();
-        qrData = i.getStringExtra("qrCode");
-        Toast.makeText(RegisterActivity.this, qrData, Toast.LENGTH_SHORT).show();
+        qrCitizenData = i.getStringExtra("qrCitizenData");
+        qrUnitData = i.getStringExtra("qrUnitData");
 
         viewInit();
         viewEventInit();
@@ -45,21 +46,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void viewEventInit() {
         btnFinalStep.setOnClickListener(view -> {
-            Call call = apiServices.createCitizen(qrData, eTxtEmail.getText().toString());
-
-            call.enqueue(new Callback() {
+            apiServices.createCitizen(qrCitizenData, qrUnitData, eTxtEmail.getText().toString())
+            .enqueue(new Callback<Response>() {
                 @Override
-                public void onResponse(Call call, Response response) {
-                    Log.e("TAG", "response 33: " + new Gson().toJson(response.body()) );
+                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    Log.e("TAG", "Response: " + response.body());
+                    Toast.makeText(RegisterStep3.this, response.body().toString() + ". Mật khẩu mặc định là 123456!", Toast.LENGTH_LONG).show();
+
                 }
 
                 @Override
-                public void onFailure(Call call, Throwable t) {
+                public void onFailure(Call<Response> call, Throwable t) {
                     Log.e("TAG", "onFailure: " + t.toString() );
                     // Log error here since request failed
                 }
             });
-        });
+
+       });
     }
 
     private void viewInit() {

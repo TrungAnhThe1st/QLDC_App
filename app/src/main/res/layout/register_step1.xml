@@ -5,7 +5,7 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".MainActivity">
+		tools:context=".RegisterStep1">
 
 	<com.budiyev.android.codescanner.CodeScannerView
 			android:id="@+id/scanner_view"
@@ -35,8 +35,17 @@
 				android:layout_height="wrap_content" android:id="@+id/txtData"
 				app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="25dp"
-				app:layout_constraintHorizontal_bias="0.498" app:layout_constraintBottom_toTopOf="@+id/btnNxtStep"
-				app:layout_constraintVertical_bias="0.0"/>
+				app:layout_constraintHorizontal_bias="0.498"
+				app:layout_constraintBottom_toTopOf="@+id/txtData1" app:layout_constraintVertical_bias="0.019"/>
+		<TextView
+				android:text="Bước 1: Quét mã QR nằm bên phải trên cùng thẻ căn cước của bạn."
+				android:layout_width="match_parent"
+				android:textSize="24dp"
+				android:layout_marginHorizontal="10dp"
+				android:layout_height="wrap_content" android:id="@+id/txtData1"
+				app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintBottom_toTopOf="@+id/btnNxtStep"
+				android:layout_marginBottom="20dp" app:layout_constraintHorizontal_bias="0.0"/>
 		<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -48,7 +57,7 @@
 				android:layout_marginBottom="36dp" android:id="@+id/btnNxtStep">
 
 		</Button>
-		
+
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
