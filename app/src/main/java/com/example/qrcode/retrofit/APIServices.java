@@ -12,4 +12,8 @@ public interface APIServices {
     Call<Response> createCitizen(@Field("qrCitizenData") String qrCitizenData ,
                                  @Field("qrUnitData") String qrUnitData,
                                  @Field("email") String email);
+
+    @FormUrlEncoded
+    @POST("api/create-citizen.php")
+    Call<Response> scanQR(@Field("qrCitizenData") String qrCitizenData);
 }

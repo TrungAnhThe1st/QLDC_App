@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitInstance {
-    public static final String BASE_URL = "https://qldc.chungsay.xyz/";
+    public static final String BASE_URL = "https://2146-14-232-210-231.ap.ngrok.io/qldc/";
 
     private static Retrofit ourInstance;
 

@@ -38,7 +38,7 @@
 				app:layout_constraintHorizontal_bias="0.498"
 				app:layout_constraintBottom_toTopOf="@+id/txtData1" app:layout_constraintVertical_bias="0.019"/>
 		<TextView
-				android:text="Bước 1: Quét mã QR nằm bên phải trên cùng thẻ căn cước của bạn."
+				android:text="Quét mã QR nằm bên phải trên cùng thẻ căn cước của bạn."
 				android:layout_width="match_parent"
 				android:textSize="24dp"
 				android:layout_marginHorizontal="10dp"
@@ -49,7 +49,7 @@
 		<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Sang bước tiếp"
+				android:text="Kiểm tra"
 				android:layout_centerHorizontal="true"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"

@@ -19,7 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.example.qrcode.databinding.RegisterStep1Binding;
+import com.example.qrcode.model.Response;
+import com.example.qrcode.retrofit.APIServices;
+import com.example.qrcode.retrofit.RetrofitInstance;
 import com.google.zxing.Result;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class RegisterStep1 extends AppCompatActivity {
     private RegisterStep1Binding binding;
@@ -30,6 +36,7 @@ public class RegisterStep1 extends AppCompatActivity {
 
     private CodeScanner codeScanner;
 
+    private final APIServices apiServices = RetrofitInstance.getInstance().create(APIServices.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +54,30 @@ public class RegisterStep1 extends AppCompatActivity {
 
     private void viewEventInit() {
         findViewById(R.id.btnNxtStep).setOnClickListener(view -> {
-            if(qrCitizenData != null && !qrCitizenData.isEmpty()) {
-                Intent i = new Intent(RegisterStep1.this, RegisterStep2.class);
-                i.putExtra("qrCitizenData", qrCitizenData);
-                startActivity(i);
-            }
-            else {
-                Toast.makeText(RegisterStep1.this, "Không có dữ liệu QR, mời quét lại", Toast.LENGTH_SHORT).show();
-            }
+//            if(qrCitizenData != null && !qrCitizenData.isEmpty()) {
+//                Intent i = new Intent(RegisterStep1.this, RegisterStep2.class);
+//                i.putExtra("qrCitizenData", qrCitizenData);
+//                startActivity(i);
+//            }
+//            else {
+//                Toast.makeText(RegisterStep1.this, "Không có dữ liệu QR, mời quét lại", Toast.LENGTH_SHORT).show();
+//            }
+
+            apiServices.scanQR(qrCitizenData)
+                    .enqueue(new Callback<Response>() {
+                        @Override
+                        public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                            Log.e("TAG", "Response: " + response.body());
+                            Toast.makeText(RegisterStep1.this, response.body().toString(), Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Response> call, Throwable t) {
+                            Log.e("TAG", "onFailure: " + t.toString() );
+                            // Log error here since request failed
+                        }
+                    });
         });
     }
 
