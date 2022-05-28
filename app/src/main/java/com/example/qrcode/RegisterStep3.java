@@ -12,6 +12,7 @@ import com.example.qrcode.databinding.RegisterStep3Binding;
 import com.example.qrcode.retrofit.APIServices;
 import com.example.qrcode.retrofit.RetrofitInstance;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import retrofit2.Call;
 import com.example.qrcode.model.Response;
 import retrofit2.Callback;
@@ -23,6 +24,7 @@ public class RegisterStep3 extends AppCompatActivity {
     private final APIServices apiServices = RetrofitInstance.getInstance().create(APIServices.class);
 
     private EditText eTxtEmail;
+    private EditText eTxtPhone;
     private Button btnFinalStep;
 
     private String qrCitizenData;
@@ -46,13 +48,18 @@ public class RegisterStep3 extends AppCompatActivity {
 
     private void viewEventInit() {
         btnFinalStep.setOnClickListener(view -> {
-            apiServices.createCitizen(qrCitizenData, qrUnitData, eTxtEmail.getText().toString())
+            String addData = eTxtPhone.getText().toString() + "|" + eTxtEmail.getText().toString();
+
+            apiServices.createCitizen(qrCitizenData, qrUnitData, addData)
             .enqueue(new Callback<Response>() {
                 @Override
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                    Log.e("TAG", "Response: " + response.body());
-                    Toast.makeText(RegisterStep3.this, response.body().toString() + ". Mật khẩu mặc định là 123456!", Toast.LENGTH_LONG).show();
-
+//                    Log.e("TAG", "Response: " + response.body());
+                    if(response.body().status == 200) {
+                        Toast.makeText(RegisterStep3.this, response.body().toString() + ". Mật khẩu mặc định là 123456!", Toast.LENGTH_LONG).show();
+                    } else if(response.body().status == 409) {
+                        Toast.makeText(RegisterStep3.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
@@ -67,6 +74,7 @@ public class RegisterStep3 extends AppCompatActivity {
 
     private void viewInit() {
         eTxtEmail = findViewById(R.id.eTxtEmail);
+        eTxtPhone = findViewById(R.id.eTxtPhone);
         btnFinalStep = findViewById(R.id.btnFinalStep);
     }
 
